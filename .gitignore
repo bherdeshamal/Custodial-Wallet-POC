@@ -1,0 +1,5 @@
+react-with-tailwind/node_modules/
+server/node_modules/
+server/package-lock.json/
+react-with-tailwind/package-lock.json/
+server/yarn.lock/
