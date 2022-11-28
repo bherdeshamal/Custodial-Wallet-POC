@@ -16,6 +16,8 @@ function Register() {
   }, [cookies, navigate]);
 
   const [values, setValues] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+
   const generateError = (error) =>
     toast.error(error, {
       position: "bottom-right",
@@ -23,6 +25,7 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      setLoading(true);
       const { data } = await axios.post(
         "http://localhost:4000/register",
         {
@@ -30,6 +33,7 @@ function Register() {
         },
         { withCredentials: true }
       );
+      setLoading(false);
       if (data) {
         if (data.errors) {
           const { email, password } = data.errors;
@@ -40,6 +44,7 @@ function Register() {
         }
       }
     } catch (ex) {
+      setLoading(false);
       console.log(ex);
     }
   };
@@ -82,8 +87,12 @@ function Register() {
               />
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn">
-                Submit
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={loading}
+              >
+                {loading ? "Loading ..." : "Register"}
               </button>
             </div>
             <label className="mt-2">

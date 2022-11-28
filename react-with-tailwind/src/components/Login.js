@@ -8,10 +8,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 function Login() {
-  const [cookies] = useCookies([]);
+  const [cookies, removeCookies] = useCookies([]);
   const navigate = useNavigate();
   useEffect(() => {
     if (cookies.jwt) {
+      removeCookies("jwt");
       navigate("/");
     }
   }, [cookies, navigate]);
@@ -86,7 +87,7 @@ function Login() {
               />
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn">
+              <button type="submit" className="btn btn-primary">
                 Submit
               </button>
             </div>

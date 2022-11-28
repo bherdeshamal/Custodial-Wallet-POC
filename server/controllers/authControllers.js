@@ -161,7 +161,7 @@ module.exports.setMessage = async (request, response) => {
 
     response.json("User set message successfully");
   } catch (error) {
-    response.status(500).send(error.reason);
+    response.status(500).send(error.message);
   }
 };
 

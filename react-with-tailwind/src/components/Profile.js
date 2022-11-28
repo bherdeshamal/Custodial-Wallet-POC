@@ -77,8 +77,8 @@ export default function Cards() {
 
       <div className=" flex justify-center lg:h-screen items-center banner-container">
         <div className="card w-full md:w-96 items-left shadow-3xl bg-base-200">
-          <h2 className="btn btn-ghost normal-case text-3xl">User Profile</h2>
-          <div className="card-body w-full lg:w-206">
+          <h2 className="text-center normal-case text-3xl">My Wallet</h2>
+          <div className="card-body w-full lg:w-96">
             <div className="form-control">
               <label className="label">User Email</label>
 

@@ -10,7 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (cookies.jwt) {
+    if (cookies.jwt && cookies.jwt !== "undefined") {
       setValues(true);
     } else {
       setValues(false);
