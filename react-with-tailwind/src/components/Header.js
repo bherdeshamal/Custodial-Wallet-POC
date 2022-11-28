@@ -35,7 +35,7 @@ const Header = () => {
                   <Link to="/Custodial-Wallet">Home</Link>
                 </li>
                 <li>
-                  <Link to="/User-Profile">User Profile</Link>
+                  <Link to="/User-Profile">My Wallet</Link>
                 </li>
                 <li>
                   <Link to="/Set-Message">Set Message</Link>

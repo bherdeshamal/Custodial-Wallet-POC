@@ -54,7 +54,7 @@ function Register() {
       <div className=" flex justify-center lg:h-screen items-center banner-container">
         <div className="card w-full md:w-96 items-center shadow-2xl bg-base-100">
           <br />
-          <h2 className="btn btn-ghost normal-case text-3xl">
+          <h2 className="text-center normal-case text-3xl">
             Register Your Account
           </h2>
           <form

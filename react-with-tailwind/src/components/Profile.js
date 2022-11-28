@@ -74,18 +74,18 @@ export default function Cards() {
   return (
     <>
       <Header />
-
       <div className=" flex justify-center lg:h-screen items-center banner-container">
-        <div className="card w-full md:w-96 items-left shadow-3xl bg-base-200">
-          <h2 className="text-center normal-case text-3xl">My Wallet</h2>
+        <div className="card w-full md:w-96 items-center shadow-2xl bg-base-100">
+          <br />
+          {/* <h3 className="text-center normal-case text-3xl">My Wallet</h3> */}
           <div className="card-body w-full lg:w-96">
             <div className="form-control">
-              <label className="label">User Email</label>
+              <label className="label"> Email</label>
 
               <input className="input input-bordered" value={values.email} />
             </div>
             <div className="form-control">
-              <label className="label">Wallet Address</label>
+              <label className="label"> Wallet Address</label>
 
               <input
                 className="input input-bordered"
@@ -93,7 +93,7 @@ export default function Cards() {
               />
             </div>
             <div className="form-control">
-              <label className="label">User Message</label>
+              <label className="label"> Message</label>
 
               <input
                 className="input input-bordered"
@@ -101,7 +101,7 @@ export default function Cards() {
               />
             </div>
             <div className="form-control">
-              <label className="label">User Balance</label>
+              <label className="label"> Balance</label>
 
               <input
                 className="input input-bordered"
