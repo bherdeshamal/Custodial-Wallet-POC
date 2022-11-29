@@ -36,6 +36,10 @@ function GetTokenFromAdmin() {
     } catch (ex) {
       setLoading(false);
       console.log(ex);
+      toast(`${ex}🦄`, {
+        // theme: "dark",
+        position: "bottom-right",
+      });
     }
   };
 
@@ -58,11 +62,13 @@ function GetTokenFromAdmin() {
             <div className="form-control">
               <label className="label">Amount</label>
               <input
-                type="text"
+                type="number"
                 name="amount"
                 placeholder="Enter Amount of Tokens"
                 className="input input-bordered"
-                onChange={(e) => setValues({ amount: e.target.value })}
+                onChange={(e) =>
+                  setValues({ ...values, amount: e.target.value })
+                }
               />
             </div>
 

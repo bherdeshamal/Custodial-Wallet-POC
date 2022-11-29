@@ -44,16 +44,6 @@ function SetMessage() {
             onSubmit={(e) => handleSubmit(e)}
             className="card-body w-full lg:w-96"
           >
-            {/* <div className="form-control">
-              <label className="label">User Id</label>
-              <input
-                type="text"
-                name="id"
-                placeholder="user id"
-                className="input input-bordered"
-                value={values.userId}
-              />
-            </div> */}
             <div className="form-control">
               <label className="label">Set Message</label>
               <input
@@ -61,7 +51,9 @@ function SetMessage() {
                 name="newMessage"
                 placeholder="Set Message"
                 className="input input-bordered"
-                onChange={(e) => setValues({ newMessage: e.target.value })}
+                onChange={(e) =>
+                  setValues({ ...values, newMessage: e.target.value })
+                }
               />
             </div>
 

@@ -282,15 +282,11 @@ module.exports.ApproveUser = async (request, response) => {
 module.exports.transferTokenOnSell = async (request, response) => {
   const userId = request.body.userId;
   const amount = request.body.amount;
-  const transferTo = request.body.transferTo;
+  const user = request.body.user;
 
   try {
     await contract.methods
-      .transferTokenOnSell(
-        Web3.utils.toWei(amount.toString()),
-        transferTo,
-        userId
-      )
+      .transferTokenOnSell(Web3.utils.toWei(amount.toString()), user, userId)
       .send({ from: owner, gas: 3000000 });
 
     response.json("Token transfer from user to admin successfully");

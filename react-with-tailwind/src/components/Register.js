@@ -7,11 +7,12 @@ import Footer from "./Footer";
 import Header from "./Header";
 
 function Register() {
-  const [cookies] = useCookies(["cookie-name"]);
+  const [cookies, removeCookies] = useCookies(["cookie-name"]);
   const navigate = useNavigate();
   useEffect(() => {
     if (cookies.jwt) {
-      navigate("/Custodial-Wallet");
+      removeCookies("jwt");
+      // navigate("/");
     }
   }, [cookies, navigate]);
 
@@ -40,6 +41,7 @@ function Register() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
+          localStorage.setItem("user", JSON.stringify(data.user));
           navigate("/Custodial-Wallet");
         }
       }
@@ -57,6 +59,7 @@ function Register() {
           <h2 className="text-center normal-case text-3xl">
             Register Your Account
           </h2>
+          <ToastContainer />
           <form
             onSubmit={(e) => handleSubmit(e)}
             className="card-body w-full lg:w-96"

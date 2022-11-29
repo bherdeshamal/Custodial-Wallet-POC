@@ -6,9 +6,9 @@ import Footer from "./Footer";
 
 function TransferToken() {
   const [values, setValues] = useState({
-    amount: "",
+    user: "",
     userId: "",
-    transerTo: "",
+    amount: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -28,13 +28,11 @@ function TransferToken() {
         "http://localhost:4000/transferTokenOnSell",
         {
           amount: values.amount,
-          transerTo: values.transerTo,
+          user: values.user,
           userId: JSON.parse(localStorage.getItem("user")),
         }
       );
-
       setLoading(false);
-      console.log(result, resultApprove);
       toast(`${result.data}🦄`, {
         // theme: "dark",
         position: "bottom-right",
@@ -42,11 +40,18 @@ function TransferToken() {
     } catch (ex) {
       setLoading(false);
       console.log(ex);
+      toast(`${ex}🦄`, {
+        // theme: "dark",
+        position: "bottom-right",
+      });
     }
   };
 
   useEffect(() => {
-    setValues({ ...values, userId: JSON.parse(localStorage.getItem("user")) });
+    setValues({
+      ...values,
+      userId: JSON.parse(localStorage.getItem("user")),
+    });
   }, []);
 
   return (
@@ -65,20 +70,23 @@ function TransferToken() {
               <label className="label">Receiver's Address</label>
               <input
                 type="text"
-                name="transferTo"
+                name="user"
                 placeholder="Enter receiver address "
                 className="input input-bordered"
-                onChange={(e) => setValues({ transerTo: e.target.value })}
+                onChange={(e) => setValues({ ...values, user: e.target.value })}
               />
             </div>
+
             <div className="form-control">
               <label className="label">Amount</label>
               <input
-                type="amount"
+                type="number"
                 name="amount"
                 placeholder="Enter Amount of Tokens"
                 className="input input-bordered"
-                onChange={(e) => setValues({ amount: e.target.value })}
+                onChange={(e) =>
+                  setValues({ ...values, amount: e.target.value })
+                }
               />
             </div>
 

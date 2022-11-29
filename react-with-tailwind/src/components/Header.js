@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <div className="navbar bg-[#FA7D19] text-white  px-16">
       <div className="flex-1">
-        <h1 className="btn btn-ghost normal-case text-3xl">Custodial Wallet</h1>
+        <h1 className=" normal-case text-4xl">Custodial Wallet</h1>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-0 font-bold">
