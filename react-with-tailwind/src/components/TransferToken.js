@@ -5,7 +5,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 function TransferToken() {
-  const [values, setValues] = useState({ amount: "", userId: "" });
+  const [values, setValues] = useState({
+    amount: "",
+    userId: "",
+    transerTo: "",
+  });
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -24,6 +28,7 @@ function TransferToken() {
         "http://localhost:4000/transferTokenOnSell",
         {
           amount: values.amount,
+          transerTo: values.transerTo,
           userId: JSON.parse(localStorage.getItem("user")),
         }
       );
@@ -57,9 +62,19 @@ function TransferToken() {
             className="card-body w-full lg:w-96"
           >
             <div className="form-control">
-              <label className="label">Amount</label>
+              <label className="label">Receiver's Address</label>
               <input
                 type="text"
+                name="transferTo"
+                placeholder="Enter receiver address "
+                className="input input-bordered"
+                onChange={(e) => setValues({ transerTo: e.target.value })}
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">Amount</label>
+              <input
+                type="amount"
                 name="amount"
                 placeholder="Enter Amount of Tokens"
                 className="input input-bordered"

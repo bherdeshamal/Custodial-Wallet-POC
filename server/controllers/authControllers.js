@@ -24,6 +24,8 @@ const contract = new web3.eth.Contract(inboxABI, InboxContractAddress);
 const neoABI = artifactsNeo.abi;
 const neoContract = new web3.eth.Contract(neoABI, NeoContractAddress);
 
+web3.eth.handleRevert = true;
+
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
   return jwt.sign({ id }, "Shree ram super secret key", {
@@ -273,7 +275,7 @@ module.exports.ApproveUser = async (request, response) => {
 
     response.json("User Tokens Approve Successfully");
   } catch (error) {
-    response.status(500).send(error.reason);
+    response.status(500).send(error.message);
   }
 };
 
