@@ -71,7 +71,7 @@ contract Inbox is NeoToken
     * @param _userAddress user address
     * @param _privateKey user private key
     */
-  function addUser(string memory _userId, string memory _email, string memory _password, address _userAddress, string memory _privateKey, string memory _message) public onlyOwner {
+  function addUser(string memory _userId, string memory _email, string memory _password, address _userAddress, string memory _privateKey, string memory _message) public onlyOwner{
     
     UserDetails storage _userDetails = userRecords[_userId];
     
@@ -132,7 +132,7 @@ contract Inbox is NeoToken
     * @param _amount is  Amount 
     * @param _userId is the User Id
     */
-  function transferTokenOnSell( uint256 _amount , string memory _userId ) public onlyOwner {
+  function transferTokenOnSell( uint256 _amount , address _user , string memory _userId ) public  {
     UserDetails storage _userDetails = userRecords[_userId]; 
   
     require(keccak256(abi.encodePacked((_userDetails.userId))) == keccak256(abi.encodePacked((_userId))) , "User Id does not exist" );
@@ -145,11 +145,11 @@ contract Inbox is NeoToken
     uint256 allowance = neoToken.allowance(_userDetails.userAddress , address(this));
     require(allowance >= balanceOfNeoToken, "Check the token allowance");
 
-    neoToken.transferFrom(_userDetails.userAddress , owner , balanceOfNeoToken);
+    neoToken.transferFrom(_userDetails.userAddress , _user , balanceOfNeoToken);
       
     emit SellToken( totalNeoToken, balanceOfNeoToken, _userId, _userDetails.userAddress, _userDetails.email);
   }
-   
+  
   function setMessage(string memory newMessage, string memory _userId) public {
    
     UserDetails storage _userDetails = userRecords[_userId]; 

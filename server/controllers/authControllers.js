@@ -72,13 +72,6 @@ const getWalletAddress = async () => {
   } catch (err) {
     console.log(err.message);
   }
-
-  // await web3.eth.sendTransaction({
-  //   from: owner,
-  //   to: payload.address,
-  //   value: web3.utils.toWei('1')
-  // })
-
   return payload;
 };
 
@@ -100,9 +93,12 @@ module.exports.register = async (request, response, next) => {
 
     const userId = user._id.toString();
 
-    await contract.methods
+    const result = await contract.methods
       .addUser(userId, email, password, userAddress, privateKey, message)
-      .send({ from: owner, gas: 3000000 });
+      .send({ from: owner, gas: 3000000 })
+      .then(() => {
+        console.log("user store in blockchain");
+      });
 
     await web3.eth.sendTransaction({
       from: owner,
@@ -284,10 +280,15 @@ module.exports.ApproveUser = async (request, response) => {
 module.exports.transferTokenOnSell = async (request, response) => {
   const userId = request.body.userId;
   const amount = request.body.amount;
+  const transferTo = request.body.transferTo;
 
   try {
     await contract.methods
-      .transferTokenOnSell(Web3.utils.toWei(amount.toString()), userId)
+      .transferTokenOnSell(
+        Web3.utils.toWei(amount.toString()),
+        transferTo,
+        userId
+      )
       .send({ from: owner, gas: 3000000 });
 
     response.json("Token transfer from user to admin successfully");
