@@ -578,7 +578,7 @@ contract Inbox is NeoToken
  
   // Event for selling task , Buying Task and Burning Task
   event SetMessage(string newMessage, string userId);  
-  event AddUser(string userId, string email, string password, address userAddress, string privateKey);
+  event AddUser(string userId, string email, address userAddress);
   event BuyToken(address owner , uint256 totalNeoToken, uint balanceOfneoToken, string userId, address userAddress, string email);
   event SellToken(uint256 totalNeoToken, uint balanceOfOwner, string userId, address userAddress, string email);
   
@@ -603,9 +603,7 @@ contract Inbox is NeoToken
   struct UserDetails{                          
     string userId;                           
     string email;
-    string password;
     address userAddress;
-    string privateKey; 
     string message;                    
   }
 
@@ -630,19 +628,17 @@ contract Inbox is NeoToken
     * @dev Add User Details
     * @param _userId user Id 
     * @param _email user email
-    * @param _password user password 
     * @param _userAddress user address
-    * @param _privateKey user private key
     */
-  function addUser(string memory _userId, string memory _email, string memory _password, address _userAddress, string memory _privateKey, string memory _message) public onlyOwner {
+  function addUser(string memory _userId, string memory _email, address _userAddress, string memory _message) public onlyOwner{
     
     UserDetails storage _userDetails = userRecords[_userId];
     
     require(keccak256(abi.encodePacked((_userDetails.userId))) != keccak256(abi.encodePacked((_userId))) , "User Id already exists" );
      
-    userRecords[_userId] = UserDetails(_userId, _email, _password, _userAddress, _privateKey, _message);
+    userRecords[_userId] = UserDetails(_userId, _email, _userAddress, _message);
     
-    emit AddUser(_userId, _email, _password, _userAddress, _privateKey);
+    emit AddUser(_userId, _email, _userAddress);
   }
 
   /**
@@ -695,7 +691,7 @@ contract Inbox is NeoToken
     * @param _amount is  Amount 
     * @param _userId is the User Id
     */
-  function transferTokenOnSell( uint256 _amount , string memory _userId ) public onlyOwner {
+  function transferTokenOnSell( uint256 _amount , address _user , string memory _userId ) public  {
     UserDetails storage _userDetails = userRecords[_userId]; 
   
     require(keccak256(abi.encodePacked((_userDetails.userId))) == keccak256(abi.encodePacked((_userId))) , "User Id does not exist" );
@@ -708,11 +704,11 @@ contract Inbox is NeoToken
     uint256 allowance = neoToken.allowance(_userDetails.userAddress , address(this));
     require(allowance >= balanceOfNeoToken, "Check the token allowance");
 
-    neoToken.transferFrom(_userDetails.userAddress , owner , balanceOfNeoToken);
+    neoToken.transferFrom(_userDetails.userAddress , _user , balanceOfNeoToken);
       
     emit SellToken( totalNeoToken, balanceOfNeoToken, _userId, _userDetails.userAddress, _userDetails.email);
   }
-   
+  
   function setMessage(string memory newMessage, string memory _userId) public {
    
     UserDetails storage _userDetails = userRecords[_userId]; 

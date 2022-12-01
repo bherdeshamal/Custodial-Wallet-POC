@@ -9,12 +9,13 @@ import Header from "./Header";
 function Register() {
   const [cookies, removeCookies] = useCookies(["cookie-name"]);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (cookies.jwt) {
-      removeCookies("jwt");
-      // navigate("/");
-    }
-  }, [cookies, navigate]);
+
+  // useEffect(() => {
+  //   if (cookies.ugid) {
+  //     // removeCookies("jwt");
+  //     navigate("/");
+  //   }
+  // }, [cookies, navigate]);
 
   const [values, setValues] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -100,10 +101,7 @@ function Register() {
             </div>
             <label className="mt-2">
               Already have an account?{" "}
-              <Link
-                to="/Sign-in"
-                className="btn btn-link text-blue underline px-0"
-              >
+              <Link to="/" className="btn btn-link text-blue underline px-0">
                 Login
               </Link>
             </label>

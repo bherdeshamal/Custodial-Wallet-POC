@@ -10,12 +10,12 @@ import Footer from "./Footer";
 function Login() {
   const [cookies, removeCookies] = useCookies([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (cookies.jwt) {
-      removeCookies("jwt");
-      navigate("/");
-    }
-  }, [cookies, navigate]);
+  // useEffect(() => {
+  //   if (cookies.jwt) {
+  //     // removeCookies("jwt");
+  //     navigate("/");
+  //   }
+  // }, [cookies, navigate]);
 
   const [values, setValues] = useState({ email: "", password: "" });
   const generateError = (error) =>
@@ -32,6 +32,7 @@ function Login() {
         },
         { withCredentials: true }
       );
+
       if (data) {
         if (data.errors) {
           const { email, password } = data.errors;

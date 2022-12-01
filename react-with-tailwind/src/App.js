@@ -9,6 +9,7 @@ import SetMessage from "./components/SetMessage";
 import GetTokenFromAdmin from "./components/GetToken";
 import TransferToken from "./components/TransferToken";
 import "react-toastify/dist/ReactToastify.css";
+import Header from "./components/Header";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/Set-Message" element={<SetMessage />} />
           <Route path="/Register" element={<Register />} />
           <Route exact path="/" element={<Login />} />
+          <Route path="/logout" element={<Header />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>

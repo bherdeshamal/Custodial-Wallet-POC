@@ -5,6 +5,7 @@ const Web3 = require("web3");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const artifactsInbox = require("../ABI/Inbox.json");
 const artifactsNeo = require("../ABI/NeoToken.json");
+const { response } = require("express");
 const owner = process.env.Owner;
 const Mnemonic = process.env.Mnemonic;
 const Polygon_API_URL = process.env.Polygon_Http_APIURL;
@@ -59,7 +60,7 @@ const handleErrors = (err) => {
   return errors;
 };
 
-const getWalletAddress = async () => {
+const createWallet = async () => {
   let ethData = {};
 
   const payload = {
@@ -69,18 +70,22 @@ const getWalletAddress = async () => {
 
   try {
     ethData = await web3.eth.accounts.wallet.create(1);
-    payload.address = ethData[0].address;
-    payload.privateKey = ethData[0].privateKey;
+    // console.log(ethData);
+    for (var i = 0; i < ethData.length; i++) {
+      payload.address = ethData[i].address;
+      payload.privateKey = ethData[i].privateKey;
+    }
   } catch (err) {
     console.log(err.message);
   }
+
   return payload;
 };
 
 module.exports.register = async (request, response, next) => {
   try {
     const { email, password } = request.body;
-    const getAddress = await getWalletAddress();
+    const getAddress = await createWallet();
     const userAddress = getAddress.address;
     const privateKey = getAddress.privateKey;
     const message = "Custodial Wallet";
@@ -96,7 +101,7 @@ module.exports.register = async (request, response, next) => {
     const userId = user._id.toString();
 
     const result = await contract.methods
-      .addUser(userId, email, password, userAddress, privateKey, message)
+      .addUser(userId, email, userAddress, message)
       .send({ from: owner, gas: 3000000 })
       .then(() => {
         console.log("user store in blockchain");
@@ -114,6 +119,7 @@ module.exports.register = async (request, response, next) => {
       maxAge: maxAge * 1000,
     });
 
+    response.status(200).json({ user: user._id, status: true });
     response.json("User Added Successfully");
   } catch (err) {
     const errors = handleErrors(err);
@@ -133,6 +139,25 @@ module.exports.login = async (req, response) => {
     const errors = handleErrors(err);
     response.json({ errors });
   }
+};
+
+module.exports.logout = async (req, res) => {
+  // Set token to none and expire after 5 seconds
+  // res.cookie(
+  //   "jwt",
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODYxYzcwNDBmMDM5NzhlMjU4YzRmMSIsImlhdCI6MTY2OTczMzQ4OCwiZXhwIjoxNjY5OTkyNjg4fQ.eCZKI56SIQcWFJcY3sCwwfn61RbuGJrr_DRZzvWA5CI; Path=/; Expires=Fri, 02 Dec 2022 14:51:28 GMT",
+  //   {
+  //     expires: new Date(Date.now() + 1 * 10),
+  //     httpOnly: true,
+  //   }
+  // );
+  res.clearCookie("jwt", {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+  res
+    .status(200)
+    .json({ success: true, message: "User logged out successfully" });
 };
 
 module.exports.getItems = async (req, res) => {
